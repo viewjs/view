@@ -1,44 +1,18 @@
-# View
+# View component
 
 ## Installation
 
 browser:
 
 ```bash
-component install view
+component install viewjs/view
 ```
 
 ## Example
 
 ```js
-var project = require('view');
+var View = require('view');
 ```
-
-## API
-
-Example API methods.
-
-### .on(event, fn, [capture])
-
-Short description of some method:
-
-```js
-project.on('event', function(e){
-
-});
-```
-
-### .on(event, selector, fn, [capture])
-
-Another description:
-
-```js
-project.on('event', 'a.remove', function(e){
-
-});
-```
-
-## Notes
 
 ## Licence
 
