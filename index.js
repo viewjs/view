@@ -1,31 +1,97 @@
+var scope = typeof window === 'undefined'
+    ? require('viewjs-scope')
+    : require('scope');
+
+exports              = module.exports = view;
+exports.View         = View;
+exports.ViewInstance = ViewInstance;
 
 /**
- * Expose `View`.
+ * A type constructor that makes it a little nicer to work with
+ * chainable objects.
+ *
+ * view()
+ *   .use(...)
  */
 
-module.exports = View;
-
-/**
- * Instantiate a new `View`.
- */
-
-function View(data, opts, parent) {
-  // linked-list
-  this._first = this;
-  this._last = this;
-  this.x = 0;
-  this.y = 0;
-  this.width = 0;
-  this.height = 0;
-  if (data) this.data = data;
-  if (parent) this.parent = parent;
+function view() {
+  return new View();
 }
 
 /**
- * Mixins for view.
+ * A view describes a very barebones view system. Most of the components
+ * are not built-in and is instead used through plugins. 
+ *
+ * View only interacts with the scope and an empty template function. The rest
+ * is done through plugins.
+ *
+ * For example, if you want dirty-checking, that's a separate plugin. HTML renderer?
+ * Plugin. SVG renderer? Plugin. This allows an extremely modular core that allows
+ * quick iteration and expansion.
  */
 
-View.use = function(fn){
-  fn(this);
+function View() {
+  this.template = function() {};
+  this.plugins = [];
+}
+
+/**
+ * Use a specific plugin with the view system. Each plugin should be
+ * of the following structure:
+ *
+ * ```js
+ * function pluginA() {
+ *    return function(View) {
+ *       // Implementation here...
+ *    };
+ * }
+ * ```
+ *
+ * Thus, you would use it as:
+ *
+ * ```js
+ * view()
+ *   .use(pluginA());
+ * ```
+ *
+ * Quite similar to express/connect middleware.
+ *
+ * @chainable
+ */
+
+View.prototype.use = function(fn) {
+  this.plugins.push(fn);
   return this;
 };
+
+/**
+ * Create a new ViewInstance that will represent a useable object.
+ *
+ * Usage:
+ *
+ * ```js
+ * var SomeView = view();
+ *
+ * SomeView.create(); // New view instance.
+ * ```
+ */
+
+View.prototype.create = function(properties) {
+  return new ViewInstance({
+    view: this,
+    properties: properties
+  });
+};
+
+/**
+ * ViewInstance
+ */
+
+function ViewInstance(options) {
+  this.view       = options.view;
+  this.properties = options.properties;
+
+  // A root scope that is the most parent scope. Each view has it's own
+  // root scope.
+  this.scope      = scope();
+}
