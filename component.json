@@ -4,11 +4,10 @@
   "description": "View component",
   "version": "0.0.1",
   "keywords": [],
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "development": {
-    
+    "visionmedia/mocha": "*",
+    "timoxley/assert": "*"
   },
   "scripts": ["index.js"],
   "license": "MIT"
