@@ -50,4 +50,21 @@ describe('view', function(){
     assert.equal(i, 1);
   });
 
+  it('should attach a method to `View` within a plugin', function() {
+    var v = view();
+
+    function plugin() {
+      return function(View) {
+        var collection = [];
+        View.directive = function(name, fn) {
+          collection.push({ name: name, fn: fn });
+          collection[name] = fn;
+        };
+      }
+    }
+
+    v.use(plugin());
+    assert.equal('function', typeof v.directive);
+  });
+
 });
