@@ -1,5 +1,21 @@
 {
   "name": "viewjs",
+  "contributors": [
+    "Lance Pollard",
+    "Daniel Fagnan"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:viewjs/view.git"
+  },
+  "engines": {
+    "node": "0.10"
+  },
+  "license": "MIT",
   "version": "0.0.1",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "*"
+  },
   "main": "./index.js"
 }
