@@ -32,7 +32,6 @@ function view() {
 
 function View() {
   this.template = function() {};
-  this.plugins = [];
 }
 
 /**
@@ -60,7 +59,7 @@ function View() {
  */
 
 View.prototype.use = function(fn) {
-  this.plugins.push(fn);
+  fn(this);
   return this;
 };
 

@@ -1,8 +1,5 @@
-var scope = 'undefined' === typeof window
-  ? require('scope')
-  : require('viewjs-scope');
-
-var view = 'undefined' == typeof window
+var scope = require('viewjs-scope')
+var view  = 'undefined' == typeof window
   ? require('..')
   : require('view'); // how to do this better?
 
@@ -31,6 +28,26 @@ describe('view', function(){
     var SomeView = view();
     var instance = SomeView.create();
     assert(instance.scope instanceof scope.Scope);
+  });
+
+  it('should save properties when instantiating a ViewInstance', function() {
+    var SomeView = view();
+    var instance = SomeView.create({ foo: 123 });
+    assert.deepEqual(instance.properties, { foo: 123 });
+  });
+
+  it('should pass a plugin and it should run', function() {
+    var v = view();
+    var i = 0;
+
+    function plugin() {
+      return function(View) {
+        i++;
+      };
+    }
+
+    v.use(plugin());
+    assert.equal(i, 1);
   });
 
 });

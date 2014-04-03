@@ -13,7 +13,9 @@
   },
   "license": "MIT",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "viewjs-scope": "*"
+  },
   "devDependencies": {
     "mocha": "*"
   },

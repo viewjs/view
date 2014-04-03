@@ -3,7 +3,11 @@ node_js:
     - '0.10'
 before_install:
     - 'npm install component -g'
+    - 'npm install mocha -g'
+    - 'npm install'
     - 'component install --dev'
     - 'component build --dev'
     - 'npm install component-test -g'
-script: component test phantom
+script: 
+    - 'component test phantom'
+    - 'mocha'
