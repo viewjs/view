@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+    - '0.10'
+before_install:
+    - 'npm install component -g'
+    - 'component install --dev'
+    - 'component build --dev'
+    - 'npm install component-test -g'
+script: component test phantom
