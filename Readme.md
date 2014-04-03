@@ -1,6 +1,6 @@
-# View component [![Build Status](https://travis-ci.org/viewjs/view.svg?branch=master)](https://travis-ci.org/viewjs/view) ![Npm 0.0.1](http://img.shields.io/badge/npm-0.0.1-orange.svg) ![MIT](http://img.shields.io/packagist/l/doctrine/orm.svg) ![Component 0.0.1](http://img.shields.io/badge/component-0.0.1-orange.svg)
+## View component [![Build Status](https://travis-ci.org/viewjs/view.svg?branch=master)](https://travis-ci.org/viewjs/view) ![Npm 0.0.1](http://img.shields.io/badge/npm-0.0.1-orange.svg) ![MIT](http://img.shields.io/packagist/l/doctrine/orm.svg) ![Component 0.0.1](http://img.shields.io/badge/component-0.0.1-orange.svg)
 
-## Installation
+### Installation
 
 browser:
 
@@ -14,16 +14,16 @@ Npm:
 npm install viewjs
 ```
 
-## Example
+### Example
 
 ```js
 var View = require('view');
 ```
 
-## Getting Started
+### Getting Started
 
 WIP
 
-## Licence
+### Licence
 
 MIT
