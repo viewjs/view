@@ -12,59 +12,49 @@ describe('view', function(){
   });
 
   it('should create a new View instance.', function() {
-    assert(view() instanceof view.View);
-  });
-
-  it('should expose a ViewInstance', function() {
-    assert.equal('function', typeof view.ViewInstance);
-  });
-
-  it('should create a new ViewInstance', function() {
-    var SomeView = view();
-    assert(SomeView.create() instanceof view.ViewInstance);
-  });
-
-  it('should create a new scope when instantiating a ViewInstance', function() {
-    var SomeView = view();
-    var instance = SomeView.create();
-    assert(instance.scope instanceof scope.Scope);
-  });
-
-  it('should save properties when instantiating a ViewInstance', function() {
-    var SomeView = view();
-    var instance = SomeView.create({ foo: 123 });
-    assert.deepEqual(instance.properties, { foo: 123 });
-  });
-
-  it('should pass a plugin and it should run', function() {
     var v = view();
-    var i = 0;
-
-    function plugin() {
-      return function(View) {
-        i++;
-      };
-    }
-
-    v.use(plugin());
-    assert.equal(i, 1);
+    assert(new v() instanceof v);
   });
 
-  it('should attach a method to `View` within a plugin', function() {
-    var v = view();
-
-    function plugin() {
-      return function(View) {
-        var collection = [];
-        View.directive = function(name, fn) {
-          collection.push({ name: name, fn: fn });
-          collection[name] = fn;
+  it('should define a new plugin', function() {
+    var attached = false;
+    var v = view()
+      .use(function plugin() {
+        return function(View) {
+          attached = true;
         };
-      }
-    }
+      }());
+    assert.equal(attached, true);
+  });
 
-    v.use(plugin());
-    assert.equal('function', typeof v.directive);
+  it('should add a prototype method onto the View', function() {
+    var v = view()
+      .use(function plugin() {
+        return function(View) {
+          View.prototype.compile = function() {
+            return true;
+          };
+        };
+      }());
+
+    var instance = new v();
+
+    assert.equal('function', typeof instance.compile);
+    assert.equal(instance.compile(), true);
+  });
+
+  it('should add a static method onto the View', function() {
+    var v = view()
+      .use(function plugin() {
+        return function(View) {
+          View.compile = function() {
+            return true;
+          };
+        };
+      }());
+
+    assert.equal('function', typeof v.compile);
+    assert.equal(v.compile(), true);
   });
 
 });

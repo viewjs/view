@@ -2,9 +2,7 @@ var scope = typeof window === 'undefined'
     ? require('viewjs-scope')
     : require('scope');
 
-exports              = module.exports = view;
-exports.View         = View;
-exports.ViewInstance = ViewInstance;
+exports = module.exports = view;
 
 /**
  * A type constructor that makes it a little nicer to work with
@@ -15,82 +13,59 @@ exports.ViewInstance = ViewInstance;
  */
 
 function view() {
-  return new View();
-}
 
-/**
- * A view describes a very barebones view system. Most of the components
- * are not built-in and is instead used through plugins. 
- *
- * View only interacts with the scope and an empty template function. The rest
- * is done through plugins.
- *
- * For example, if you want dirty-checking, that's a separate plugin. HTML renderer?
- * Plugin. SVG renderer? Plugin. This allows an extremely modular core that allows
- * quick iteration and expansion.
- */
+  /**
+   * A view describes a very barebones view system. Most of the components
+   * are not built-in and is instead used through plugins. 
+   *
+   * View only interacts with the scope and an empty template function. The rest
+   * is done through plugins.
+   *
+   * For example, if you want dirty-checking, that's a separate plugin. HTML renderer?
+   * Plugin. SVG renderer? Plugin. This allows an extremely modular core that allows
+   * quick iteration and expansion.
+   */
 
-function View() {
-  this.template = function() {};
-}
+  function View() {
+    this.template = function() {};
+    this.renderer = null;
+    this.scope    = scope();
+  }
 
-/**
- * Use a specific plugin with the view system. Each plugin should be
- * of the following structure:
- *
- * ```js
- * function pluginA() {
- *    return function(View) {
- *       // Implementation here...
- *    };
- * }
- * ```
- *
- * Thus, you would use it as:
- *
- * ```js
- * view()
- *   .use(pluginA());
- * ```
- *
- * Quite similar to express/connect middleware.
- *
- * @chainable
- */
+  /**
+   * Use a specific plugin with the view system. Each plugin should be
+   * of the following structure:
+   *
+   * ```js
+   * function pluginA() {
+   *    return function(View) {
+   *       // Implementation here...
+   *    };
+   * }
+   * ```
+   *
+   * Thus, you would use it as:
+   *
+   * ```js
+   * view()
+   *   .use(pluginA());
+   * ```
+   *
+   * Quite similar to express/connect middleware.
+   *
+   * @param {Function} fn Callback
+   * @chainable
+   * @return {View}
+   */
 
-View.prototype.use = function(fn) {
-  fn(this);
-  return this;
-};
+  View.use = function(fn) {
+    if ('function' !== typeof fn) {
+      throw new Error("A plugin must be a function.");
+    }
 
-/**
- * Create a new ViewInstance that will represent a useable object.
- *
- * Usage:
- *
- * ```js
- * var SomeView = view();
- *
- * SomeView.create(); // New view instance.
- * ```
- */
+    fn(View);
+    return this;
+  };
 
-View.prototype.create = function(properties) {
-  return new ViewInstance({
-    view: this,
-    properties: properties
-  });
-};
-
-/**
- * ViewInstance
- */
-
-function ViewInstance(options) {
-  this.view       = options.view;
-  this.properties = options.properties;
-
-  // A root scope that is the most parent scope. Each view has it's own
-  // root scope.
-  this.scope      = scope();
+  return View;
 }
