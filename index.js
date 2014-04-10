@@ -67,5 +67,28 @@ function view() {
     return this;
   };
 
+  /**
+   * An alias setter for the scope.
+   *
+   * @param {String} key
+   * @param {Any} value
+   * @return {Scope}
+   */
+
+  View.prototype.set = function(key, value) {
+    return this.scope.set(key, value);
+  };
+
+  /**
+   * An alias getter for the scope.
+   *
+   * @param {String} key
+   * @return {Scope}
+   */
+
+  View.prototype.get = function(key) {
+    return this.scope.get(key);
+  };
+
   return View;
 }

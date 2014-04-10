@@ -14,11 +14,43 @@ Npm:
 npm install viewjs
 ```
 
-### Example
+### Getting Started
+
+First, require the view component:
 
 ```js
-var View = require('view');
+var view = require('view');
 ```
+
+Let's define our first view:
+
+```js
+var ExampleView = view();
+```
+
+This doesn't do much by default, because almost all the functionality is divided up into separate components. However, each view gets a default empty template, a scope, and an empty renderer. That's it.
+
+Let's create a new view instance. Each instance can be independently manipulated.
+
+```js
+var exampleView = new ExampleView();
+```
+
+Now we can access the scope:
+
+```js
+exampleView.scope
+```
+
+Each `View` object have an alias `.set(key, value)`, and `.get(key)` that defer to the attached scope.
+
+The `.get(key)` method works semantically the same as the Scope's `.get(key)` method (i.e., bubbles up to the parents).
+
+```js
+exampleView.get('fooBar');
+```
+
+If an attribute doesn't exist, `undefined` will be returned.
 
 ### Getting Started
 
