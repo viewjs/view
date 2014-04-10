@@ -52,9 +52,26 @@ exampleView.get('fooBar');
 
 If an attribute doesn't exist, `undefined` will be returned.
 
-### Getting Started
+### Plugins
 
-WIP
+We can add a plugin to any view through the `.use(fn)` method. The convention is the same as express middleware with connect or express.
+
+```js
+var ExampleView = view()
+  .use(plugin());
+```
+
+The format of the plugin is:
+
+```js
+function plugin() {
+  return function(View) {
+
+  };
+}
+```
+
+Plugins can extend the view in any way see fits. Either by adding methods, properties, or both.
 
 ### Licence
 
